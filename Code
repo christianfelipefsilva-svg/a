@@ -1,0 +1,32 @@
+-- CONFIGURAÇÕES
+local url = "https://raw.githubusercontent.com/USUARIO/REPOSITORIO/main/musica.mp3"
+local fileName = "musica.mp3"
+
+-- BAIXAR O ARQUIVO
+local success, response = pcall(function()
+    return game:HttpGet(url)
+end)
+
+if not success then
+    warn("Erro ao baixar o MP3:", response)
+    return
+end
+
+-- SALVAR NO ARMAZENAMENTO DO EXECUTOR
+writefile(fileName, response)
+
+-- CONVERTER PARA ASSET LOCAL
+local asset = getcustomasset(fileName)
+
+-- CRIAR O SOM
+local sound = Instance.new("Sound")
+sound.Name = "GitHubMusic"
+sound.SoundId = asset
+sound.Volume = 1
+sound.Looped = false
+sound.Parent = workspace
+
+-- REPRODUZIR
+sound:Play()
+
+print("MP3 baixado e reproduzido!")
